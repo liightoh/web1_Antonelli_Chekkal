@@ -22,7 +22,6 @@ class ProfilRequest extends Request
         return [
             'name'	 	=> 'required|min:5',
             'email'	    => 'required|email',
-            'password'  => 'required|confirmed|min:6'
         ];
     }
 
