@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-
+use App\Http\Requests\ProfilRequest;
+use Illuminate\Support\Facades\Auth;
 class ProfilController extends Controller
 {
     /**
@@ -13,17 +12,36 @@ class ProfilController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-
     public function index()
     {
-
+        $id =  Auth::user()->id;
+        $users   = User::find($id);
+        return view('profil.index')->with(compact('users'));
     }
-
-
-    public function update(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(ProfilRequest $request, $id)
+    {
+        $users = User::find($id);
+        $users ->name    = $request->name;
+        $users ->email	 = $request->email;
+        $users->password = $request->password;
+        $users ->update();
+        return redirect()->route('articles.index', $users->id);
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
         //
     }
-
 }

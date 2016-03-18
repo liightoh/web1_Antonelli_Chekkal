@@ -66,12 +66,16 @@ Route::group(['middleware' => ['web']], function () {
         return view('welcome', ['id' => 100]);
     });
 
+
+
     Route::get('/home', 'HomeController@index');
 
     Route::get('contact',
         ['as' => 'contact', 'uses' => 'ContactController@create']);
     Route::post('contact',
         ['as' => 'contact_store', 'uses' => 'ContactController@store']);
+
+    Route::resource('profil', 'ProfilController');
 
 });
 
