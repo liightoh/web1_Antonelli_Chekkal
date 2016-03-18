@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +25,61 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    /**
+    Route::get('/contact', function() {
+        return 'page contact';
+    });
+
+    Route::get('/articles', function(){
+        return 'Mes articles:';
+    });
+
+    Route::get('/articles/create', function() {
+        return view('articles.create');
+    });
+
+    Route::delete('/articles/{id}', function($id){
+       //Code pour supprimer un article
+    });
+
+    Route::post('/articles', function(Request $request) {
+        dd($request->all());
+    });
+
+    Route::get('/articles/{id}', function($id){
+        return 'Article n°'.$id;
+    });
+     */
+
+
+    Route::resource('/articles', 'PostController');
+
+    Route::get('/contact', ['as' => 'page.contact', 'uses' => function() {
+        return 'ok';
+    }]);
+
+    route::resource('/comment', 'CommentController');
+
+    Route::auth();
+
+    Route::get('/', function () {
+        return view('welcome', ['id' => 100]);
+    });
+
+    Route::get('/home', 'HomeController@index');
+
+    Route::get('contact',
+        ['as' => 'contact', 'uses' => 'ContactController@create']);
+    Route::post('contact',
+        ['as' => 'contact_store', 'uses' => 'ContactController@store']);
+
 });
+
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+});
+
+
